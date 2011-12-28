@@ -1,0 +1,52 @@
+<% if user_signed_in? %>
+<%= link_to 'Sign Out' , destroy_user_session_path,  :method=>:delete%>
+<%end%>
+
+
+<h1>Listing posts</h1>
+<%= link_to 'Refresh List', posts_path%>
+<meta http-equiv=refresh content="10">
+<%= will_paginate %>
+<table>
+  <tr>
+    <th>Author</th>
+    <th>Content</th>
+    <th>Count</th>
+    <th></th>
+     <th></th>
+     <th></th>
+     
+  </tr>
+  
+
+
+<% @posts.each do |post| %>
+  <tr>
+  
+  <td><%=post.author%></td>
+    <td><%= post.content %></td>
+    <td><div id="count_div_<%=post.id%>"><%= post.count %></div></td>
+    <td><%= link_to '+1',  plus_path+"?id="+post.id.to_s, :remote => true %></td>
+      <td><%= link_to 'Show', post %></td>
+    <td><%= link_to 'Edit', edit_post_path(post) %></td>
+    <td><%= link_to 'Destroy', post, confirm: 'Are you sure?', method: :delete %></td>
+<% end %>
+</table>
+ <%= will_paginate %>
+ 
+<br /> 
+  
+  <%= form_for(@post) do |f| %>
+ 
+
+  <div class="field">
+    <%= f.label :content %><br />
+    <%= f.text_area :content , :rows=>3, :cols=>30 %>
+  </div>
+   
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+  <br/>
+<%= link_to 'New Post', new_post_path %>
